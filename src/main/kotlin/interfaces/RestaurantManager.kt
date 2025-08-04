@@ -1,0 +1,4 @@
+package interfaces
+
+interface RestaurantManager {
+}

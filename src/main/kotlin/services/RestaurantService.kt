@@ -1,0 +1,4 @@
+package services
+
+object RestaurantService {
+}

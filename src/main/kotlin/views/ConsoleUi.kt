@@ -1,0 +1,4 @@
+package views
+
+object ConsoleUi {
+}
