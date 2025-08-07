@@ -4,4 +4,6 @@ enum class UserRole {
     ADMIN,
     MANAGER,
     WAITER,
+    CUSTOMER,
+    CHEF
 }

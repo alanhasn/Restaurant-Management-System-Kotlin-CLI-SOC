@@ -29,6 +29,10 @@ class InMemoryUserRepository: UserRepository{
         return users.values.toList()
     }
 
+    override fun findByEmail(email: String): User? {
+        return users.values.firstOrNull { it.email == email }
+    }
+
     override fun update(user: User): Result<User> {
         val id = user.id // Gte the user ID
         if (!users.containsKey(id)){
