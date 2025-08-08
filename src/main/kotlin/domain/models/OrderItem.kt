@@ -7,7 +7,7 @@ data class OrderItem(
     val id: String,
     val orderId: String,
     val menuItemId: String,
-    val quantity: Int,
+    var quantity: Int,
     val unitPrice: BigDecimal,
     val status: OrderItemStatus = OrderItemStatus.PENDING,
 ) {

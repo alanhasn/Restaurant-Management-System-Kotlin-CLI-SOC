@@ -4,7 +4,7 @@ import domain.models.Employee
 import java.time.LocalDate
 
 interface EmployeeRepository {
-    fun save(employee: Employee): Employee
+    fun save(employee: Employee): Boolean
     fun findById(id: String): Employee?
     fun findByUserId(userId: String): Employee?
     fun findAll(): List<Employee>

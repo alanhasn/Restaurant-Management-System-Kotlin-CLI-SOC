@@ -8,11 +8,11 @@ import java.util.UUID
 class InMemoryMenuItemRepository: MenuItemRepository{
     private val menuItems = mutableMapOf<String , MenuItem>()
 
-    override fun save(menuItem: MenuItem): MenuItem {
+    override fun save(menuItem: MenuItem): Boolean {
         val id = menuItem.id.ifBlank { UUID.randomUUID().toString() }
         val menuItemWithId = menuItem.copy(id=id)
         menuItems[id] = menuItemWithId
-        return menuItemWithId
+        return true
     }
 
     override fun findById(id: String): MenuItem? {
@@ -35,14 +35,14 @@ class InMemoryMenuItemRepository: MenuItemRepository{
         return menuItems.values.filter { it.isAvailable }
     }
 
-    override fun update(menuItem: MenuItem): Result<MenuItem> {
+    override fun update(menuItem: MenuItem): Boolean {
         val id = menuItem.id
 
         if (!menuItems.containsKey(id)) {
-            return Result.failure(IllegalArgumentException("No menu item found with id: $id"))
+            return false
         }
         menuItems[id] = menuItem
-        return Result.success(menuItem)
+        return true
     }
 
     override fun delete(id: String): Boolean {

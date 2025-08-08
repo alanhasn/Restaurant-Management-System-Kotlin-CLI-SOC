@@ -8,13 +8,13 @@ import kotlin.collections.set
 class InMemoryEmployeeRepository: EmployeeRepository{
     private val employees = mutableMapOf<String , Employee>()
 
-    override fun save(employee: Employee): Employee {
+    override fun save(employee: Employee): Boolean {
         val id = employee.id.ifBlank { UUID.randomUUID().toString() }
 
         val employeeWithId = employee.copy(id=id)
 
         employees[id] = employeeWithId
-        return employeeWithId
+        return true
     }
 
     override fun findById(id: String): Employee? {
