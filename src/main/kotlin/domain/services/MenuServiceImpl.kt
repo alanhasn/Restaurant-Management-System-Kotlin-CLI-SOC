@@ -3,6 +3,9 @@ package domain.services
 import data.repository.MenuItemRepository
 import domain.models.MenuItem
 import domain.models.utils.MenuCategory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import java.util.UUID
 
@@ -10,15 +13,15 @@ class MenuServiceImpl(
     private val menuItemRepository: MenuItemRepository
 ) : MenuService {
 
-    override fun addMenuItem(
+    override suspend fun addMenuItem(
         name: String,
         price: Double,
         category: MenuCategory,
         description: String,
         preparationTime: Int,
         calories: Int?
-    ): Boolean {
-        if (name.isBlank() || price <= 0.0) return false
+    ): Boolean = withContext(Dispatchers.IO) {
+        if (name.isBlank() || price <= 0.0) return@withContext false
 
         val newItem = MenuItem(
             id = UUID.randomUUID().toString(),
@@ -28,28 +31,32 @@ class MenuServiceImpl(
             category = category,  // مثلاً يمكنك تعديل هذه القيمة أو إضافة معلمة category
             preparationTime = preparationTime
         )
-        return menuItemRepository.save(newItem)
+        delay(1000)
+        return@withContext menuItemRepository.save(newItem)
     }
 
-    override fun updateMenuItem(id: String, name: String?, price: Double?): Boolean {
-        val existingItem = menuItemRepository.findById(id) ?: return false
+    override suspend fun updateMenuItem(id: String, name: String?, price: Double?): Boolean=withContext(Dispatchers.IO){
+        val existingItem = menuItemRepository.findById(id) ?: return@withContext false
 
         val updatedItem = existingItem.copy(
             name = name?.takeIf { it.isNotBlank() } ?: existingItem.name,
             price = price?.takeIf { it > 0 }?.let { BigDecimal.valueOf(it) } ?: existingItem.price
         )
-        return menuItemRepository.update(updatedItem)
+        delay(1000)
+        return@withContext menuItemRepository.update(updatedItem)
     }
 
-    override fun deleteMenuItem(id: String): Boolean {
-        return menuItemRepository.delete(id)
+    override suspend fun deleteMenuItem(id: String): Boolean =withContext(Dispatchers.IO){
+        delay(1000)
+        return@withContext menuItemRepository.delete(id)
     }
 
-    override fun getMenuItemById(id: String): MenuItem? {
+    override suspend fun getMenuItemById(id: String): MenuItem? {
         return menuItemRepository.findById(id)
     }
 
-    override fun listAllMenuItems(): List<MenuItem> {
+    override suspend fun listAllMenuItems(): List<MenuItem> {
+        delay(1000)
         return menuItemRepository.findAll()
     }
 }

@@ -6,7 +6,7 @@ import jdk.jfr.Description
 
 
 interface MenuService {
-    fun addMenuItem(
+    suspend fun addMenuItem(
         name: String,
         price: Double,
         category: MenuCategory,
@@ -14,8 +14,8 @@ interface MenuService {
         preparationTime: Int,
         calories: Int?
     ): Boolean
-    fun updateMenuItem(id: String, name: String?, price: Double?): Boolean
-    fun deleteMenuItem(id: String): Boolean
-    fun getMenuItemById(id: String): MenuItem?
-    fun listAllMenuItems(): List<MenuItem>
+    suspend fun updateMenuItem(id: String, name: String?, price: Double?): Boolean
+    suspend fun deleteMenuItem(id: String): Boolean
+    suspend fun getMenuItemById(id: String): MenuItem?
+    suspend fun listAllMenuItems(): List<MenuItem>
 }

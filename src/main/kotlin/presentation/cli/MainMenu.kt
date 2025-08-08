@@ -1,1 +1,1 @@
-class MainMenu
+package presentation.cli

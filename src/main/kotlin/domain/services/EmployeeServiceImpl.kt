@@ -2,6 +2,9 @@ package domain.services
 
 import data.repository.EmployeeRepository
 import domain.models.Employee
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.util.UUID
 
@@ -9,7 +12,7 @@ class EmployeeServiceImpl(
     private val employeeRepository: EmployeeRepository
 ) : EmployeeService {
 
-    override fun hireEmployee(
+    override suspend fun hireEmployee(
         name: String,
         position: String,
         hireDate: LocalDate,
@@ -21,7 +24,7 @@ class EmployeeServiceImpl(
         dateOfBirth: LocalDate?,
         identificationNumber: String?,
         userId: String // نفترض أن هناك علاقة بين الموظف والمستخدم (User)
-    ): Boolean {
+    ): Boolean = withContext(Dispatchers.IO) {
         val id = UUID.randomUUID().toString()
         val newEmployee = Employee(
             id = id,
@@ -38,10 +41,11 @@ class EmployeeServiceImpl(
             identificationNumber = identificationNumber,
             isActive = true
         )
-        return employeeRepository.save(newEmployee)
+        delay(1000)
+        return@withContext employeeRepository.save(newEmployee)
     }
 
-    override fun updateEmployee(
+    override suspend fun updateEmployee(
         id: String,
         name: String?,
         position: String?,
@@ -53,8 +57,8 @@ class EmployeeServiceImpl(
         isActive: Boolean?,
         dateOfBirth: LocalDate?,
         identificationNumber: String?
-    ): Boolean {
-        val existingEmployee = employeeRepository.findById(id) ?: return false
+    ): Boolean =withContext(Dispatchers.IO) {
+        val existingEmployee = employeeRepository.findById(id) ?: return@withContext false
 
         val updatedEmployee = existingEmployee.copy(
             name = name ?: existingEmployee.name,
@@ -68,21 +72,23 @@ class EmployeeServiceImpl(
             dateOfBirth = dateOfBirth ?: existingEmployee.dateOfBirth,
             identificationNumber = identificationNumber ?: existingEmployee.identificationNumber
         )
-
-        return employeeRepository.update(updatedEmployee).isSuccess
+        delay(1000)
+        return@withContext employeeRepository.update(updatedEmployee).isSuccess
     }
 
-    override fun fireEmployee(id: String): Boolean {
-        val existingEmployee = employeeRepository.findById(id) ?: return false
+    override suspend fun fireEmployee(id: String): Boolean = withContext(Dispatchers.IO) {
+        val existingEmployee = employeeRepository.findById(id) ?: return@withContext false
         val disabledEmployee = existingEmployee.copy(isActive = false)
-        return employeeRepository.update(disabledEmployee).isSuccess
+        delay(1000)
+        return@withContext employeeRepository.update(disabledEmployee).isSuccess
     }
 
-    override fun getEmployeeById(id: String): Employee? {
+    override suspend fun getEmployeeById(id: String): Employee? {
         return employeeRepository.findById(id)
     }
 
-    override fun listAllEmployees(): List<Employee> {
+    override suspend fun listAllEmployees(): List<Employee> {
+        delay(1000)
         return employeeRepository.findAll()
     }
 }

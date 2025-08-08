@@ -4,7 +4,7 @@ import domain.models.Employee
 import java.time.LocalDate
 
 interface EmployeeService {
-    fun hireEmployee(
+    suspend fun hireEmployee(
         name: String,
         position: String,
         hireDate: LocalDate,
@@ -18,7 +18,7 @@ interface EmployeeService {
         userId: String
     ): Boolean
 
-    fun updateEmployee(
+    suspend fun updateEmployee(
         id: String,
         name: String? = null,
         position: String? = null,
@@ -32,7 +32,7 @@ interface EmployeeService {
         identificationNumber: String? = null
     ): Boolean
 
-    fun fireEmployee(id: String): Boolean
-    fun getEmployeeById(id: String): Employee?
-    fun listAllEmployees(): List<Employee>
+    suspend fun fireEmployee(id: String): Boolean
+    suspend fun getEmployeeById(id: String): Employee?
+    suspend fun listAllEmployees(): List<Employee>
 }

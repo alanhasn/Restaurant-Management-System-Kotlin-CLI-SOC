@@ -2,14 +2,16 @@ package domain.services
 
 import domain.models.Table
 import domain.models.utils.TableStatus
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 class TableServiceImpl : TableService {
 
-    // تخزين الجداول في الذاكرة بشكل مؤقت باستخدام map (مفتاح: id)
     private val tables = mutableMapOf<String, Table>()
 
-    override fun addTable(name: String, capacity: Int): Boolean {
+    override suspend fun addTable(name: String, capacity: Int): Boolean {
         if (name.isBlank() || capacity <= 0) return false
 
         val newTable = Table(
@@ -23,13 +25,13 @@ class TableServiceImpl : TableService {
         return true
     }
 
-    override fun updateTable(
+    override suspend fun updateTable(
         id: String,
         name: String?,
         capacity: Int?,
         isAvailable: Boolean?
-    ): Boolean {
-        val existingTable = tables[id] ?: return false
+    ): Boolean = withContext(Dispatchers.IO){
+        val existingTable = tables[id] ?: return@withContext false
 
         val updatedTable = existingTable.copy(
             tableNumber = name?.toIntOrNull() ?: existingTable.tableNumber,
@@ -40,35 +42,38 @@ class TableServiceImpl : TableService {
                 null -> existingTable.status
             }
         )
-
+        delay(1000)
         tables[id] = updatedTable
-        return true
+        return@withContext true
     }
 
-    override fun deleteTable(id: String): Boolean {
+    override suspend fun deleteTable(id: String): Boolean {
+        delay(1000)
         return tables.remove(id) != null
     }
 
-    override fun getTableById(id: String): Table? {
+    override suspend fun getTableById(id: String): Table? {
+        delay(1000)
         return tables[id]
     }
 
-    override fun listAllTables(): List<Table> {
+    override suspend fun listAllTables(): List<Table> {
+        delay(1000)
         return tables.values.toList()
     }
 
-    override fun markTableAsOccupied(id: String): Boolean {
+    override suspend fun markTableAsOccupied(id: String): Boolean {
         val existingTable = tables[id] ?: return false
         if (existingTable.status == TableStatus.OCCUPIED) return false
-
+        delay(1500)
         tables[id] = existingTable.copy(status = TableStatus.OCCUPIED)
         return true
     }
 
-    override fun markTableAsAvailable(id: String): Boolean {
+    override suspend fun markTableAsAvailable(id: String): Boolean {
         val existingTable = tables[id] ?: return false
         if (existingTable.status == TableStatus.AVAILABLE) return false
-
+        delay(1500)
         tables[id] = existingTable.copy(status = TableStatus.AVAILABLE)
         return true
     }

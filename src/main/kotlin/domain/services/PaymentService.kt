@@ -5,8 +5,8 @@ import domain.models.utils.PaymentMethod
 
 
 interface PaymentService {
-    fun makePayment(orderId: String, amountPaid: Double, method: PaymentMethod): Boolean
-    fun getPaymentById(id: String): Payment?
-    fun getPaymentsForOrder(orderId: String): List<Payment>
-    fun listAllPayments(): List<Payment>
+    suspend fun makePayment(orderId: String, amountPaid: Double, method: PaymentMethod): Boolean
+    suspend fun getPaymentById(id: String): Payment?
+    suspend fun getPaymentsForOrder(orderId: String): List<Payment>
+    suspend fun listAllPayments(): List<Payment>
 }

@@ -4,10 +4,10 @@ import domain.models.Customer
 
 
 interface CustomerService {
-    fun addCustomer(name: String, phone: String): Boolean
-    fun updateCustomer(id: String, name: String?, phone: String?): Boolean
-    fun deleteCustomer(id: String): Boolean
-    fun getCustomerById(id: String): Customer?
-    fun getCustomerByPhone(phone: String): Customer?
-    fun listAllCustomers(): List<Customer>
+    suspend fun addCustomer(name: String, phone: String): Boolean
+    suspend fun updateCustomer(id: String, name: String?, phone: String?): Boolean
+    suspend fun deleteCustomer(id: String): Boolean
+    suspend fun getCustomerById(id: String): Customer?
+    suspend fun getCustomerByPhone(phone: String): Customer?
+    suspend fun listAllCustomers(): List<Customer>
 }

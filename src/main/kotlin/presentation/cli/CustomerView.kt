@@ -31,6 +31,7 @@ class CustomerView(
             }
         }
     }
+
     private fun addNewCustomer() {
         println("\n=== Add New Customer ===")
         print("Name: ")
