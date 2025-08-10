@@ -1,5 +1,8 @@
 package domain.models
 
+/*
+* Customer model class representing a customer entity in the system with various properties and default values
+*/
 data class Customer(
     val id: String,
     val name: String,

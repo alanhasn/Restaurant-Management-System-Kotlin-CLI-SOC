@@ -1,80 +1,62 @@
 package domain.services
 
+// Dependencies
+import data.repository.TableRepository
 import domain.models.Table
-import domain.models.utils.TableStatus
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
-class TableServiceImpl : TableService {
+// Table Service Implementation
+class TableServiceImpl(
+    private val tableRepository: TableRepository
+) : TableService {
 
-    private val tables = mutableMapOf<String, Table>()
-
-    override suspend fun addTable(name: String, capacity: Int): Boolean {
-        if (name.isBlank() || capacity <= 0) return false
-
-        val newTable = Table(
-            id = UUID.randomUUID().toString(),
-            tableNumber = name.toIntOrNull() ?: (tables.size + 1), // إذا كان الاسم رقم نستخدمه كرقم الطاولة وإلا رقم تسلسلي
-            capacity = capacity,
-            status = TableStatus.AVAILABLE
-        )
-
-        tables[newTable.id] = newTable
-        return true
+    /*
+     * Adds a new table to the repository.
+     *
+     * @param table The table to be added.
+     * @return True if the table was successfully added, false otherwise.
+     */
+    override suspend fun addTable(table: Table): Boolean = withContext(Dispatchers.IO) {
+        tableRepository.save(table)
     }
 
-    override suspend fun updateTable(
-        id: String,
-        name: String?,
-        capacity: Int?,
-        isAvailable: Boolean?
-    ): Boolean = withContext(Dispatchers.IO){
-        val existingTable = tables[id] ?: return@withContext false
-
-        val updatedTable = existingTable.copy(
-            tableNumber = name?.toIntOrNull() ?: existingTable.tableNumber,
-            capacity = capacity ?: existingTable.capacity,
-            status = when (isAvailable) {
-                true -> TableStatus.AVAILABLE
-                false -> TableStatus.OCCUPIED
-                null -> existingTable.status
-            }
-        )
-        delay(1000)
-        tables[id] = updatedTable
-        return@withContext true
+    /*
+     * Updates an existing table in the repository.
+     * @param id The ID of the table to be updated.
+     * @param table The updated table data.
+     * @return True if the table was successfully updated, false otherwise.
+     */
+    override suspend fun updateTable(id: String, table: Table): Boolean {
+        return withContext(Dispatchers.IO) {
+            tableRepository.update(table)
+        }
     }
 
-    override suspend fun deleteTable(id: String): Boolean {
-        delay(1000)
-        return tables.remove(id) != null
+    /*
+     * Deletes a table from the repository.
+     * @param id The ID of the table to be deleted.
+     * @return True if the table was successfully deleted, false otherwise.
+     */
+    override suspend fun deleteTable(id: String): Boolean = withContext(Dispatchers.IO) {
+        tableRepository.delete(id)
     }
 
-    override suspend fun getTableById(id: String): Table? {
-        delay(1000)
-        return tables[id]
+    /*
+     * Retrieves a table from the repository by its ID.
+     * @param id The ID of the table to retrieve.
+     * @return The table object if found, null otherwise.
+     */
+    override suspend fun getTableById(id: String): Table? = withContext(Dispatchers.IO) {
+        tableRepository.findById(id)
     }
 
-    override suspend fun listAllTables(): List<Table> {
-        delay(1000)
-        return tables.values.toList()
+    /*
+     * Retrieves all tables from the repository.
+     * @return A list of all tables in the repository.
+     */
+    override suspend fun listAllTables(): List<Table> = withContext(Dispatchers.IO) {
+        tableRepository.findAll()
     }
 
-    override suspend fun markTableAsOccupied(id: String): Boolean {
-        val existingTable = tables[id] ?: return false
-        if (existingTable.status == TableStatus.OCCUPIED) return false
-        delay(1500)
-        tables[id] = existingTable.copy(status = TableStatus.OCCUPIED)
-        return true
-    }
-
-    override suspend fun markTableAsAvailable(id: String): Boolean {
-        val existingTable = tables[id] ?: return false
-        if (existingTable.status == TableStatus.AVAILABLE) return false
-        delay(1500)
-        tables[id] = existingTable.copy(status = TableStatus.AVAILABLE)
-        return true
-    }
 }

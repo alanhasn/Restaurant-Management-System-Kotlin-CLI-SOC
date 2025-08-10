@@ -1,5 +1,6 @@
 package domain.models.utils
 
+// enum class for order status
 enum class OrderStatus {
     PENDING,
     CONFIRMED,

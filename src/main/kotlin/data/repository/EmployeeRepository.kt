@@ -3,6 +3,7 @@ package data.repository
 import domain.models.Employee
 import java.time.LocalDate
 
+// Interface for Employee repository operations
 interface EmployeeRepository {
     fun save(employee: Employee): Boolean
     fun findById(id: String): Employee?
@@ -10,7 +11,7 @@ interface EmployeeRepository {
     fun findAll(): List<Employee>
     fun update(employee: Employee): Result<Employee>
     fun delete(id: String): Boolean
-
+    // Additional search methods
     fun findByPosition(position: String): List<Employee>
     fun findByContactNumber(contactNumber: String): Employee?
     fun findByEmail(email: String): Employee?

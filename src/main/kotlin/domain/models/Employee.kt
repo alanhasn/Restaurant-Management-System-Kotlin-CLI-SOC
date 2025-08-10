@@ -2,6 +2,9 @@ package domain.models
 
 import java.time.LocalDate
 
+/*
+* Employee model class representing an employee entity in the system with various properties and default values
+ */
 data class Employee(
     val id: String,
     val userId: String,
@@ -14,6 +17,6 @@ data class Employee(
     val address: String,
     val isActive: Boolean = true,
     val emergencyContact: String? = null,
-    val dateOfBirth: LocalDate? = null,
+    val dateOfBirth: String? = null,
     val identificationNumber: String? = null
 )

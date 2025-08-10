@@ -3,6 +3,7 @@ package domain.services
 import domain.models.Employee
 import java.time.LocalDate
 
+// Interface for Employee service operations
 interface EmployeeService {
     suspend fun hireEmployee(
         name: String,
@@ -13,7 +14,7 @@ interface EmployeeService {
         email: String,
         address: String,
         emergencyContact: String? = null,
-        dateOfBirth: LocalDate? = null,
+        dateOfBirth: String? = null,
         identificationNumber: String? = null,
         userId: String
     ): Boolean

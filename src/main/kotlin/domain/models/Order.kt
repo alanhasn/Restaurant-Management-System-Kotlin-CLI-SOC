@@ -5,6 +5,10 @@ import domain.models.utils.OrderType
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
+/*
+ * Order class represents a customer's order.
+ * It contains information about the order, including the order type, order items, and total amount.
+ */
 data class Order(
     val id: String,
     val customerId: String? = null,

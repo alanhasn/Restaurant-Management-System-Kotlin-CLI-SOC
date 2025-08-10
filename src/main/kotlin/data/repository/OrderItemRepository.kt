@@ -3,6 +3,7 @@ package data.repository
 import domain.models.OrderItem
 import domain.models.utils.OrderItemStatus
 
+// interface OrderItemRepository for order item operations
 interface OrderItemRepository {
     fun save(orderItem: OrderItem): OrderItem
     fun findById(id: String): OrderItem?

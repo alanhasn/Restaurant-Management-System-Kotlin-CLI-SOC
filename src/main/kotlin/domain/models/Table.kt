@@ -2,7 +2,9 @@ package domain.models
 
 import domain.models.utils.TableStatus
 
-
+/*
+ * Table model class representing a table entity in the system with various properties and default values
+ */
 data class Table(
     val id: String,
     val tableNumber: Int,

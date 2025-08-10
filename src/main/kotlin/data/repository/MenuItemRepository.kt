@@ -3,6 +3,7 @@ package data.repository
 import domain.models.utils.MenuCategory
 import domain.models.MenuItem
 
+// interface for MenuItemRepository
 interface MenuItemRepository {
     fun save(menuItem: MenuItem): Boolean
     fun findById(id: String): MenuItem?

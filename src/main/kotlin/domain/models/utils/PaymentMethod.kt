@@ -1,5 +1,6 @@
 package domain.models.utils
 
+// enum class PaymentMethod
 enum class PaymentMethod {
     CASH,
     CREDIT_CARD,

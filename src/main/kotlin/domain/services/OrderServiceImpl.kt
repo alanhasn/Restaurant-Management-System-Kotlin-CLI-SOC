@@ -1,101 +1,136 @@
 package domain.services
 
+// Dependencies
+import data.repository.OrderRepository
 import domain.models.Order
 import domain.models.OrderItem
 import domain.models.utils.OrderStatus
 import domain.models.utils.OrderType
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
 
+// Order Service Implementation
 class OrderServiceImpl(
-    private val menuService: MenuService
+    // Dependencies injected
+    private val orderRepository: OrderRepository,
+    private val menuService: MenuService,
 ) : OrderService {
 
-    private val orders = mutableMapOf<String, Order>()
+    /*
+     * Creates a new order based on the provided order type, employee ID, table ID, and customer ID.
+     * The order ID is generated using a UUID, and the order is saved to the repository.
+     * @param orderType The type of order to create.
+     * @param employeeId The ID of the employee creating the order.
+     * @param tableId The ID of the table for DINE-IN orders, or null for TAKE-AWAY orders.
+     * @param customerId The ID of the customer for DINE-IN orders, or null for TAKE-AWAY orders.
+     * @return The ID of the newly created order.
+     */
+    override suspend fun createOrder(orderType: OrderType, employeeId: String, tableId: String?, customerId: String?): String {
+        return withContext(Dispatchers.IO) {
+            if (orderType == OrderType.DINE_IN && tableId.isNullOrBlank()) {
+                throw IllegalArgumentException("Table ID is required for DINE-IN orders.")
+            }
 
-    override suspend fun createOrder(
-        tableId: String,
-        customerId: String?,
-        employeeId: String
-    ): String = withContext(Dispatchers.IO){
-        val id = UUID.randomUUID().toString()
-        val newOrder = Order(
-            id = id,
-            customerId = customerId,
-            tableId = tableId,
-            status = OrderStatus.PENDING,
-            orderType = OrderType.DINE_IN, // افتراضياً، يمكن توسيع المعاملات
-            orderItems = mutableListOf(),
-            orderTime = LocalDateTime.now(),
-            totalAmount = BigDecimal.ZERO
-        )
-        delay(1000)
-        orders[id] = newOrder
-        return@withContext id
-    }
-
-    override suspend fun addItemToOrder(orderId: String, menuItemId: String, quantity: Int): Boolean =withContext(Dispatchers.IO) {
-        val order = orders[orderId] ?: return@withContext false
-        if (quantity <= 0) return@withContext false
-
-        val unitPrice = menuService.getMenuItemById(menuItemId)?.price ?: return@withContext false
-
-        val existingItem = order.orderItems.find { it.menuItemId == menuItemId }
-        if (existingItem != null) {
-            existingItem.quantity += quantity
-        } else {
-            val newOrderItem = OrderItem(
-                id = UUID.randomUUID().toString(),
-                orderId = orderId,
-                menuItemId = menuItemId,
-                quantity = quantity,
-                unitPrice = unitPrice
+            val orderId = UUID.randomUUID().toString()
+            val newOrder = Order(
+                id = orderId,
+                orderType = orderType,
+                tableId = tableId,
+                customerId = customerId,
+                status = OrderStatus.PENDING,
+                orderTime = LocalDateTime.now(),
+                orderItems = mutableListOf(),
+                totalAmount = BigDecimal.ZERO
             )
-            order.orderItems.add(newOrderItem)
-        }
 
-        var total = BigDecimal.ZERO
-        for (item in order.orderItems) {
-            val itemTotal = item.unitPrice.multiply(item.quantity.toBigDecimal())
-            total = total.add(itemTotal)
+            orderRepository.save(newOrder)
+            return@withContext orderId
         }
-        delay(1000)
-        orders[orderId] = order.copy(totalAmount = total)
-
-        return@withContext true
     }
 
+    /*
+     * Adds a new menu item to an existing order.
+     * @param orderId The ID of the order to add the item to.
+     * @param menuItemId The ID of the menu item to add.
+     * @param quantity The quantity of the menu item to add.
+     * @return true if the item was successfully added to the order, false otherwise.
+     */
+    override suspend fun addItemToOrder(orderId: String, menuItemId: String, quantity: Int): Boolean {
+        return withContext(Dispatchers.IO) {
+            // Retrieve the order and menu item
+            val order = orderRepository.findById(orderId) ?: return@withContext false
+            val menuItem = menuService.getMenuItemById(menuItemId) ?: return@withContext false
+            // Validate the quantity and update the order
+            if (quantity <= 0) throw IllegalArgumentException("Quantity must be positive.")
+
+            val existingItem = order.orderItems.find { it.menuItemId == menuItemId } // Find the existing item
+            if (existingItem != null) {
+                existingItem.quantity += quantity
+            } else {
+                // Add the item to the order
+                order.orderItems.add(
+                    OrderItem(
+                        id = UUID.randomUUID().toString(),
+                        orderId = orderId,
+                        menuItemId = menuItemId,
+                        quantity = quantity,
+                        unitPrice = menuItem.price
+                    )
+                )
+            }
+            // Update the total amount
+            val newTotalAmount = order.orderItems.sumOf { it.unitPrice.multiply(BigDecimal.valueOf(it.quantity.toLong())) }
+            val updatedOrder = order.copy(totalAmount = newTotalAmount)
+
+            orderRepository.update(updatedOrder)
+        }
+    }
 
     override suspend fun removeItemFromOrder(orderId: String, menuItemId: String): Boolean {
-        val order = orders[orderId] ?: return false
-        val removed = order.orderItems.removeIf { it.menuItemId == menuItemId }
-        delay(1000)
-        return removed
+        return withContext(Dispatchers.IO) {
+            val order = orderRepository.findById(orderId) ?: return@withContext false
+            val itemRemoved = order.orderItems.removeIf { it.menuItemId == menuItemId }
+            if (!itemRemoved) return@withContext false
+
+            val newTotalAmount = order.orderItems.sumOf { it.unitPrice.multiply(BigDecimal.valueOf(it.quantity.toLong())) }
+            val updatedOrder = order.copy(totalAmount = newTotalAmount)
+
+            orderRepository.update(updatedOrder)
+        }
     }
 
-    override suspend fun updateOrderStatus(orderId: String, status: OrderStatus): Boolean =withContext(Dispatchers.IO){
-        val order = orders[orderId] ?: return@withContext false
-        delay(1000)
-        orders[orderId] = order.copy(status = status)
-        return@withContext true
+    override suspend fun updateOrderStatus(orderId: String, status: OrderStatus): Boolean {
+        return withContext(Dispatchers.IO) {
+            val order = orderRepository.findById(orderId) ?: return@withContext false
+            val updatedOrder = order.copy(status = status)
+            return@withContext orderRepository.update(updatedOrder)
+        }
     }
 
     override suspend fun deleteOrder(orderId: String): Boolean {
-        delay(1000)
-        return orders.remove(orderId) != null
+        return withContext(Dispatchers.IO) {
+            return@withContext orderRepository.delete(orderId)
+        }
     }
 
     override suspend fun getOrderById(orderId: String): Order? {
-        delay(1000)
-        return orders[orderId]
+        return withContext(Dispatchers.IO) {
+            return@withContext orderRepository.findById(orderId)
+        }
+    }
+
+    override suspend fun getOrdersByCustomer(customerId: String): List<Order> {
+        return withContext(Dispatchers.IO) {
+            return@withContext orderRepository.findByCustomer(customerId)
+        }
     }
 
     override suspend fun listAllOrders(): List<Order> {
-        delay(1000)
-        return orders.values.toList()
+        return withContext(Dispatchers.IO) {
+            return@withContext orderRepository.findAll()
+        }
     }
 }
