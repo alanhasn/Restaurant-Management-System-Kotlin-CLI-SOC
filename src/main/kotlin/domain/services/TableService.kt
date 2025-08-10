@@ -8,5 +8,6 @@ interface TableService {
     suspend fun updateTable(id:String , table: Table): Boolean
     suspend fun deleteTable(id: String): Boolean
     suspend fun getTableById(id: String): Table?
+    suspend fun reserveTable(id: String): Boolean
     suspend fun listAllTables(): List<Table>
 }

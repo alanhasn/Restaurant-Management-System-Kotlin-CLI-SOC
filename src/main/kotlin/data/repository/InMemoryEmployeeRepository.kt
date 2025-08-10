@@ -11,6 +11,43 @@ class InMemoryEmployeeRepository: EmployeeRepository{
     // In-memory storage for employees
     private val employees = mutableMapOf<String , Employee>()
 
+    init {
+        // Initialize the in-memory storage
+        employees["1"] = Employee(
+            UUID.randomUUID().toString(),
+            "1234567890",
+            "Alan",
+            "Manager",
+            LocalDate.of(2000, 1, 1),
+            2323.0,
+            "00003333",
+            "whoma@example.com",
+            "qamishlo",
+            )
+        employees["2"] = Employee(
+            UUID.randomUUID().toString(),
+            "1234567890",
+            "John",
+            "Manager",
+            LocalDate.of(2000, 1, 1),
+            2323.0,
+            "00003333",
+            "whoma@example.com",
+            "qamishlo",
+        )
+
+        employees["3"] = Employee(
+            UUID.randomUUID().toString(),
+            "1234567890",
+            "Jane",
+            "Manager",
+            LocalDate.of(2000, 1, 1),
+            2323.0,
+            "00003333",
+            "whoma@example.com",
+            "qamishlo",
+        )
+    }
     /*
      * Save an employee to the in-memory storage
      * @param employee The employee to be saved

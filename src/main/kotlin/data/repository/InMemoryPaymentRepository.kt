@@ -2,7 +2,11 @@ package data.repository
 
 // Dependencies
 import domain.models.Payment
+import domain.models.utils.PaymentMethod
 import domain.models.utils.PaymentStatus
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID // For payment ID generation
 
 
@@ -40,6 +44,22 @@ class InMemoryPaymentRepository: PaymentRepository{
      */
     override fun findByOrderId(orderId: String): List<Payment> {
         return payments.values.filter { it.orderId == orderId }
+    }
+
+    override fun payBill(
+        orderId: String,
+        amount: BigDecimal,
+        method: PaymentMethod
+    ): Result<Payment> {
+        val payment = Payment(
+            id = UUID.randomUUID().toString(),
+            orderId = orderId,
+            amount = amount,
+            paymentMethod = method,
+            status = PaymentStatus.PENDING,
+            paymentDate = LocalDateTime.now()
+        )
+        return Result.success(payment)
     }
 
     /*

@@ -127,7 +127,7 @@ object MainView {
      */
     private fun showCustomerMenu(user: User) {
         println("\nWelcome, ${user.username}!")
-        val customerSelfServiceView = CustomerSelfServiceView(customerService, orderService, user)
+        val customerSelfServiceView = CustomerSelfServiceView(customerService, orderService, user, menuView, orderView, tableView , paymentView)
         customerSelfServiceView.showSelfServiceMenu()
     }
 

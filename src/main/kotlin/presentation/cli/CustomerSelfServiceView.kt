@@ -13,7 +13,11 @@ import java.time.format.DateTimeFormatter
 class CustomerSelfServiceView(
     private val customerService: CustomerService,
     private val orderService: OrderService,
-    private val currentUser: User
+    private val currentUser: User,
+    private val menuView: MenuView,
+    private val orderView: OrderView,
+    private val tableView: TableView,
+    private val paymentView: PaymentView
 ) {
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
@@ -24,17 +28,24 @@ class CustomerSelfServiceView(
     fun showSelfServiceMenu() {
         while (true) {
             println("\n=== Customer Self-Service ===")
-            println("1. View My Profile")
-            println("2. Update My Profile")
-            println("3. View My Order History")
-            println("4. Back to Main Menu")
-            print("\nChoose an option (1-4): ")
+            println("1. View Menu Item")
+            println("2. Place Order")
+            println("3. Table reservation")
+            println("4. Pay the bill")
+            println("5. View My Profile")
+            println("6. Update My Profile")
+            println("7. View My Order History")
+            println("8. Back to Main Menu")
 
-            when (readIntInRange(1..4)) {
-                1 -> viewMyProfile()
-                2 -> updateMyProfile()
-                3 -> viewMyOrderHistory()
-                4 -> {
+            when (readIntInRange(1..8)) {
+                1 -> menuView.viewMenu()
+                2 -> orderView.createOrder()
+                3 -> tableReservation()
+                4 -> paymentView.payBill()
+                5 -> viewMyProfile()
+                6 -> updateMyProfile()
+                7 -> viewMyOrderHistory()
+                8 -> {
                     println("\nReturning to main menu...")
                     return
                 }
@@ -95,7 +106,7 @@ class CustomerSelfServiceView(
         try {
             val orders = orderService.getOrdersByCustomer(currentUser.id)
             if (orders.isEmpty()) {
-                println("\nℹ️ You have no past orders.")
+                println("\nYou have no past orders.")
                 return@runBlocking
             }
 
@@ -116,6 +127,13 @@ class CustomerSelfServiceView(
         } catch (e: Exception) {
             println("\nAn error occurred while fetching your order history: ${e.message}")
         }
+    }
+
+    /**
+     * Displays the table reservation menu and handles user input.
+     */
+    fun tableReservation() = runBlocking {
+        tableView.tableReservation()
     }
 
     /**

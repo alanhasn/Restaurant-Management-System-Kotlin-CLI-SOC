@@ -159,6 +159,24 @@ class PaymentView(
         }
     }
 
+    fun payBill() = runBlocking {
+        println("\n=== Pay Bill ===")
+        orderView.showOrders()
+        val orderId = readNonEmptyInput("Enter Order ID: ", "Order ID cannot be empty.")
+        val amount = readBigDecimal("Enter amount to pay: $")
+        val paymentMethod = selectPaymentMethod()
+
+        try {
+            val success = paymentService.payBill(orderId , amount, paymentMethod)
+            if (success) {
+                println("\nBill paid successfully!")
+            } else {
+                println("\nFailed to pay bill. Please check the order details and try again.")
+            }
+        } catch (e: Exception) {
+            println("\nError processing payment: ${e.message}")
+        }
+    }
     /**
      * Helper function to print payment details.
      */

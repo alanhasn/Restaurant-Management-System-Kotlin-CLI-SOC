@@ -51,6 +51,12 @@ class TableServiceImpl(
         tableRepository.findById(id)
     }
 
+    override suspend fun reserveTable(id: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            tableRepository.tableReserve(id)
+        }
+    }
+
     /*
      * Retrieves all tables from the repository.
      * @return A list of all tables in the repository.

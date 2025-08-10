@@ -10,6 +10,7 @@ interface TableRepository {
     fun findByTableNumber(tableNumber: Int): Table?
     fun findAll(): List<Table>
     fun findByStatus(status: TableStatus): List<Table>
+    fun tableReserve(id: String): Boolean
     fun update(table: Table): Boolean
     fun delete(id: String): Boolean
 }

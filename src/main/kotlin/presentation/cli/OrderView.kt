@@ -224,7 +224,6 @@ class OrderView(
      * Adds an item to an existing order.
      */
     private fun addItemToOrder(orderId: String? = null) = runBlocking {
-        showOrders()
         val targetOrderId = orderId ?: run {
             findOrder("Enter order ID to add items to: ")?.id ?: return@runBlocking
         }

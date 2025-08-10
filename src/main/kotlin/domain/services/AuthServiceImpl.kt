@@ -87,7 +87,7 @@ class AuthServiceImpl(
         }
 
         // Hash password
-        val hashedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray())
+        val hashedPassword = BCrypt.withDefaults().hashToString(12, password.toCharArray()) // 12 work factor
 
         // Create new user object
         val newUser = User(

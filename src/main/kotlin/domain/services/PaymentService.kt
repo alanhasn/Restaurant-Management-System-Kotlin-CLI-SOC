@@ -10,4 +10,5 @@ interface PaymentService {
     suspend fun getPaymentById(id: String): Payment?
     suspend fun getPaymentsForOrder(orderId: String): List<Payment>
     suspend fun listAllPayments(): List<Payment>
+    suspend fun payBill(orderId: String, amountPaid: BigDecimal, method: PaymentMethod): Boolean
 }

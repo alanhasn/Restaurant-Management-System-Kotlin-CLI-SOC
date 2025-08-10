@@ -43,7 +43,7 @@ class MenuView(
     /**
      * Displays the menu in a categorized format.
      */
-    private fun viewMenu() = runBlocking {
+    fun viewMenu() = runBlocking {
         try {
             val menuItems = menuService.listAllMenuItems()
 

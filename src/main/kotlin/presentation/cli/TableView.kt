@@ -151,6 +151,24 @@ class TableView(private val tableService: TableService) {
     }
 
     /**
+     * Reserves a table.
+     */
+    fun tableReservation() = runBlocking {
+        listAllTables()
+        val table = findTable("Enter table ID to reserve: ") ?: return@runBlocking
+        try {
+            val success = tableService.reserveTable(table.id)
+            if (success) {
+                println("\nTable reserved successfully!")
+            } else {
+                println("\nFailed to reserve table its already reserved, try again.")
+            }
+        } catch (e: Exception) {
+            println("\nError reserving table: ${e.message}")
+        }
+    }
+
+    /**
      * Finds a table by ID.
      */
     private suspend fun findTable(prompt: String): Table? {

@@ -69,4 +69,19 @@ class PaymentServiceImpl(
     override suspend fun listAllPayments(): List<Payment> = withContext(Dispatchers.IO) {
         return@withContext paymentRepository.findAll()
     }
+
+    override suspend fun payBill(orderId: String, amountPaid: BigDecimal , method: PaymentMethod): Boolean {
+        return withContext(Dispatchers.IO) {
+            val payment = Payment(
+                id = UUID.randomUUID().toString(),
+                orderId = orderId,
+                amount = amountPaid,
+                paymentMethod = method,
+                status = PaymentStatus.COMPLETED,
+                paymentDate = LocalDateTime.now()
+            )
+            delay(500) // Simulate DB latency
+            return@withContext paymentRepository.save(payment)
+        }
+    }
 }
