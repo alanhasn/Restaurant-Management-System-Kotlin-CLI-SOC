@@ -25,7 +25,8 @@ class InMemoryTableRepository: TableRepository{
         tables[table4.id] = table4
         tables[table5.id] = table5
     }
-    /*
+
+    /**
      * Save a table to the in-memory storage
      * @param table The table to be saved
      * @return true if the table was saved successfully
@@ -37,7 +38,7 @@ class InMemoryTableRepository: TableRepository{
         return true
     }
 
-    /*
+    /**
      * Find a table by its ID
      * @param id The ID of the table to find
      * @return The found table or null if not found
@@ -46,7 +47,7 @@ class InMemoryTableRepository: TableRepository{
         return tables[id]
     }
 
-    /*
+    /**
      * Find a table by its table number
      * @param tableNumber The table number of the table to find
      * @return The found table or null if not found
@@ -55,7 +56,7 @@ class InMemoryTableRepository: TableRepository{
         return tables.values.firstOrNull { it.tableNumber == tableNumber }
     }
 
-    /*
+    /**
      * Find all tables
      * @return A list of all tables
      */
@@ -63,7 +64,7 @@ class InMemoryTableRepository: TableRepository{
         return tables.values.toList()
     }
 
-    /*
+    /**
      * Find tables by their status
      * @param status The status of the tables to find
      * @return A list of tables with the specified status
@@ -83,7 +84,7 @@ class InMemoryTableRepository: TableRepository{
         return true
     }
 
-    /*
+    /**
      * Update a table in the in-memory storage
      * @param table The table to be updated
      * @return true if the table was updated successfully
@@ -97,7 +98,7 @@ class InMemoryTableRepository: TableRepository{
         return true
     }
 
-    /*
+    /**
      * Delete a table by its ID
      * @param id The ID of the table to delete
      * @return true if the table was deleted successfully

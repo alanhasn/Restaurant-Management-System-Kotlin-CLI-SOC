@@ -17,7 +17,7 @@ class PaymentServiceImpl(
     private val paymentRepository: PaymentRepository
 ) : PaymentService {
 
-    /*
+    /**
      * Make a payment for an order
      * @param orderId The ID of the order to make the payment for
      * @param amountPaid The amount of the payment
@@ -44,7 +44,7 @@ class PaymentServiceImpl(
         return@withContext paymentRepository.save(payment)
     }
 
-    /*
+    /**
      * Retrieve a payment by its ID
      * @param id The ID of the payment to retrieve
      * @return The payment object if found, null otherwise
@@ -53,7 +53,7 @@ class PaymentServiceImpl(
         return@withContext paymentRepository.findById(id)
     }
 
-    /*
+    /**
      * Retrieve all payments for an order
      * @param orderId The ID of the order to retrieve payments for
      * @return A list of payments for the order
@@ -62,7 +62,7 @@ class PaymentServiceImpl(
         return@withContext paymentRepository.findByOrderId(orderId)
     }
 
-    /*
+    /**
      * Retrieve all payments
      * @return A list of all payments
      */

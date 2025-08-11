@@ -12,7 +12,7 @@ class CustomerServiceImpl(
     private val customerRepository: CustomerRepository
 ) : CustomerService {
 
-    /*
+    /**
      * @param name: String
      * @param phone: String
      * @param email: String?
@@ -44,7 +44,7 @@ class CustomerServiceImpl(
         }
     }
 
-    /*
+    /**
      * @param id: String
      * @param name: String
      * @param phone: String
@@ -70,7 +70,7 @@ class CustomerServiceImpl(
         return@withContext customerRepository.save(newCustomer)
     }
 
-    /*
+    /**
      * @param id: String
      * @param name: String?
      * @param phone: String?
@@ -96,7 +96,7 @@ class CustomerServiceImpl(
         }
     }
 
-    /*
+    /**
      * @param id: String
      * @return Boolean
      */
@@ -107,7 +107,7 @@ class CustomerServiceImpl(
         }
     }
 
-    /*
+    /**
      * @param id: String
      * @return Customer?
      */
@@ -118,7 +118,7 @@ class CustomerServiceImpl(
         }
     }
 
-    /*
+    /**
      * @param phone: String
      * @return Customer?
      */
@@ -128,7 +128,8 @@ class CustomerServiceImpl(
             customerRepository.findByPhone(phone)
         }
     }
-    /*
+
+    /**
      * @return List<Customer>
      */
     override suspend fun listAllCustomers(): List<Customer> {

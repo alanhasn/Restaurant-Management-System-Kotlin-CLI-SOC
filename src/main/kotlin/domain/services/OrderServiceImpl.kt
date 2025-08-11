@@ -19,7 +19,7 @@ class OrderServiceImpl(
     private val menuService: MenuService,
 ) : OrderService {
 
-    /*
+    /**
      * Creates a new order based on the provided order type, employee ID, table ID, and customer ID.
      * The order ID is generated using a UUID, and the order is saved to the repository.
      * @param orderType The type of order to create.
@@ -51,7 +51,7 @@ class OrderServiceImpl(
         }
     }
 
-    /*
+    /**
      * Adds a new menu item to an existing order.
      * @param orderId The ID of the order to add the item to.
      * @param menuItemId The ID of the menu item to add.

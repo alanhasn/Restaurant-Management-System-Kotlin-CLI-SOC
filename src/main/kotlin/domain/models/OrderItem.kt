@@ -13,9 +13,5 @@ data class OrderItem(
     var quantity: Int,
     val unitPrice: BigDecimal,
     val status: OrderItemStatus = OrderItemStatus.PENDING,
-) {
-    // Calculate the total price of the order item
-    val totalPrice: BigDecimal
-        get() = unitPrice.multiply(BigDecimal(quantity))
-}
+)
 

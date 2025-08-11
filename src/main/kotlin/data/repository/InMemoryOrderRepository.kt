@@ -10,7 +10,7 @@ class InMemoryOrderRepository: OrderRepository {
     // List of orders in memory
     private val orders = mutableMapOf<String , Order>()
 
-    /*
+    /**
      * Save a new order and return the saved order
      * @param order: The order to be saved
      * @return The saved order
@@ -22,7 +22,7 @@ class InMemoryOrderRepository: OrderRepository {
         return orderWithId
     }
 
-    /*
+    /**
      * Find an order by its ID
      * @param id: The ID of the order to find
      * @return The found order or null if not found
@@ -31,7 +31,7 @@ class InMemoryOrderRepository: OrderRepository {
         return orders[id]
     }
 
-    /*
+    /**
      * Find orders by their status
      * @param status: The status of the orders to find
      * @return A list of orders with the specified status
@@ -40,7 +40,7 @@ class InMemoryOrderRepository: OrderRepository {
         return orders.values.filter { it.status == status }
     }
 
-    /*
+    /**
      * Find orders by their customer ID
      * @param customerId: The ID of the customer to find orders for
      * @return A list of orders for the specified customer
@@ -49,7 +49,7 @@ class InMemoryOrderRepository: OrderRepository {
         return orders.values.filter { it.customerId == customerId }
     }
 
-    /*
+    /**
      * Find orders by their table ID
      * @param tableId: The ID of the table to find orders for
      * @return A list of orders for the specified table
@@ -58,7 +58,7 @@ class InMemoryOrderRepository: OrderRepository {
         return orders.values.filter { it.tableId == tableId }
     }
 
-    /*
+    /**
      * Find all orders
      * @return A list of all orders
      */
@@ -66,7 +66,7 @@ class InMemoryOrderRepository: OrderRepository {
         return orders.values.toList()
     }
 
-    /*
+    /**
      * Update an existing order
      * @param order: The order to update
      * @return True if the order was updated, false otherwise
@@ -80,7 +80,7 @@ class InMemoryOrderRepository: OrderRepository {
         return true
     }
 
-    /*
+    /**
      * Delete an order by its ID
      * @param id: The ID of the order to delete
      * @return True if the order was deleted, false otherwise

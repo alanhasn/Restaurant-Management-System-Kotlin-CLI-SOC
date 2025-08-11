@@ -11,7 +11,7 @@ class InMemoryOrderItemRepository: OrderItemRepository{
     // list of order items
     private val orderItems = mutableMapOf<String , OrderItem>()
 
-    /*
+    /**
      * Save an order item
      * @param orderItem: OrderItem
      * @return: OrderItem
@@ -23,7 +23,7 @@ class InMemoryOrderItemRepository: OrderItemRepository{
         return orderItemWithId
     }
 
-    /*
+    /**
      * Find an order item by id
      * @param id: String
      * @return: OrderItem?
@@ -32,7 +32,7 @@ class InMemoryOrderItemRepository: OrderItemRepository{
         return orderItems[id]
     }
 
-    /*
+    /**
      * Find order items by order id
      * @param orderId: String
      * @return: List<OrderItem>
@@ -41,7 +41,7 @@ class InMemoryOrderItemRepository: OrderItemRepository{
         return orderItems.values.filter { it.orderId == orderId }
     }
 
-    /*
+    /**
      * Find order items by menu item id
      * @param menuItemId: String
      * @return: List<OrderItem>
@@ -50,7 +50,7 @@ class InMemoryOrderItemRepository: OrderItemRepository{
         return orderItems.values.filter { it.menuItemId == menuItemId }
     }
 
-    /*
+    /**
      * Find order items by status
      * @param status: OrderItemStatus
      * @return: List<OrderItem>
@@ -59,7 +59,7 @@ class InMemoryOrderItemRepository: OrderItemRepository{
         return orderItems.values.filter { it.status == status }
     }
 
-    /*
+    /**
      * Update an order item
      * @param orderItem: OrderItem
      * @return: Result<OrderItem>
@@ -73,7 +73,7 @@ class InMemoryOrderItemRepository: OrderItemRepository{
         return Result.success(orderItem)
     }
 
-    /*
+    /**
      * Delete an order item by id
      * @param id: String
      * @return: Boolean
@@ -82,7 +82,7 @@ class InMemoryOrderItemRepository: OrderItemRepository{
        return orderItems.remove(id) != null
     }
 
-    /*
+    /**
      * Delete order items by order id
      * @param orderId: String
      * @return: Boolean

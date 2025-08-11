@@ -65,7 +65,8 @@ class InMemoryMenuItemRepository: MenuItemRepository{
             calories = 100
         )
     }
-    /*
+
+    /**
      * Save a MenuItem to the in-memory storage
      * @param menuItem The MenuItem to be saved
      * @return true if the MenuItem was saved successfully
@@ -77,7 +78,7 @@ class InMemoryMenuItemRepository: MenuItemRepository{
         return true
     }
 
-    /*
+    /**
      * Find a MenuItem by its ID
      * @param id The ID of the MenuItem to find
      * @return The MenuItem with the specified ID, or null if not found
@@ -86,7 +87,7 @@ class InMemoryMenuItemRepository: MenuItemRepository{
         return menuItems[id]
     }
 
-    /*
+    /**
      * Find a MenuItem by its name
      * @param name The name of the MenuItem to find
      * @return The MenuItem with the specified name, or null if not found
@@ -95,7 +96,7 @@ class InMemoryMenuItemRepository: MenuItemRepository{
         return menuItems.values.firstOrNull{ it.name == name }
     }
 
-    /*
+    /**
      * Find all MenuItems
      * @return A list of all MenuItems
      */
@@ -103,7 +104,7 @@ class InMemoryMenuItemRepository: MenuItemRepository{
         return menuItems.values.toList()
     }
 
-    /*
+    /**
      * Find MenuItems by their category
      * @param category The category of the MenuItems to find
      * @return A list of MenuItems with the specified category
@@ -112,7 +113,7 @@ class InMemoryMenuItemRepository: MenuItemRepository{
         return menuItems.values.filter { it.category == category }
     }
 
-    /*
+    /**
      * Find all available MenuItems
      * @return A list of all available MenuItems
      */
@@ -120,7 +121,7 @@ class InMemoryMenuItemRepository: MenuItemRepository{
         return menuItems.values.filter { it.isAvailable }
     }
 
-    /*
+    /**
      * Update a MenuItem in the in-memory storage
      * @param menuItem The MenuItem to be updated
      * @return true if the MenuItem was updated successfully
@@ -135,7 +136,7 @@ class InMemoryMenuItemRepository: MenuItemRepository{
         return true
     }
 
-    /*
+    /**
      * Delete a MenuItem by its ID
      * @param id The ID of the MenuItem to delete
      * @return True if the MenuItem was deleted, false otherwise

@@ -177,6 +177,7 @@ class PaymentView(
             println("\nError processing payment: ${e.message}")
         }
     }
+
     /**
      * Helper function to print payment details.
      */

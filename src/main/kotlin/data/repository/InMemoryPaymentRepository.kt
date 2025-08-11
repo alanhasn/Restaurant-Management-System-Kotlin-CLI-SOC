@@ -16,7 +16,7 @@ class InMemoryPaymentRepository: PaymentRepository{
     // In-memory map to store payments
     private val payments = mutableMapOf<String , Payment>()
 
-    /*
+    /**
      * Saves a new payment to the repository.
      * @param payment The payment to be saved.
      * @return true if the payment was saved successfully, false otherwise.
@@ -28,7 +28,7 @@ class InMemoryPaymentRepository: PaymentRepository{
         return true
     }
 
-    /*
+    /**
      * Finds a payment by its ID.
      * @param id The ID of the payment to find.
      * @return The payment if found, null otherwise.
@@ -37,7 +37,7 @@ class InMemoryPaymentRepository: PaymentRepository{
         return payments[id]
     }
 
-    /*
+    /**
      * Finds payments by order ID.
      * @param orderId The ID of the order to find payments for.
      * @return A list of payments associated with the order.
@@ -46,6 +46,10 @@ class InMemoryPaymentRepository: PaymentRepository{
         return payments.values.filter { it.orderId == orderId }
     }
 
+    /**
+     * Pay the bill for table
+     * @return Result<payment>
+     */
     override fun payBill(
         orderId: String,
         amount: BigDecimal,
@@ -62,7 +66,7 @@ class InMemoryPaymentRepository: PaymentRepository{
         return Result.success(payment)
     }
 
-    /*
+    /**
      * Finds payments by their status.
      * @param status The status of the payments to find.
      * @return A list of payments with the specified status.
@@ -71,7 +75,7 @@ class InMemoryPaymentRepository: PaymentRepository{
         return payments.values.filter { it.status == status }
     }
 
-    /*
+    /**
      * Retrieves all payments from the repository.
      * @return A list of all payments.
      */
@@ -79,7 +83,7 @@ class InMemoryPaymentRepository: PaymentRepository{
         return payments.values.toList()
     }
 
-    /*
+    /**
      * Updates a payment in the repository.
      * @param payment The payment to update.
      * @return The updated payment if successful, null otherwise.
@@ -93,7 +97,7 @@ class InMemoryPaymentRepository: PaymentRepository{
         return Result.success(payment)
     }
 
-    /*
+    /**
      * Deletes a payment by its ID.
      * @param id The ID of the payment to delete.
      * @return true if the payment was deleted successfully, false otherwise.

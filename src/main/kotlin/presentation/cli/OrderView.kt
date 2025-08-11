@@ -111,6 +111,7 @@ class OrderView(
             println("\nError creating order: ${e.message}")
         }
     }
+
     /**
      * Lists all orders with cleaner vertical formatting.
      */

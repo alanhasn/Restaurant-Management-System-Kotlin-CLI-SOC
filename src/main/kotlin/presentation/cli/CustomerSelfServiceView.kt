@@ -160,7 +160,6 @@ class CustomerSelfServiceView(
     }
 
     // Input helper functions
-
     private fun readOptionalInput(prompt: String): String? {
         print(prompt)
         return readLine()?.trim()?.takeIf { it.isNotBlank() }

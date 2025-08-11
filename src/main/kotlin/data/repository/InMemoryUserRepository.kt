@@ -26,7 +26,7 @@ class InMemoryUserRepository: UserRepository{
         users[id] = adminUser // Save the user
     }
 
-    /*
+    /**
     * Save a new User
     * @param user: User to be saved
     * @return: Saved User
@@ -43,7 +43,7 @@ class InMemoryUserRepository: UserRepository{
         return userWithId
     }
 
-    /*
+    /**
     * Find a User by ID
     * @param id: ID of the User to be found
     * @return: Found User or null if not found
@@ -52,7 +52,7 @@ class InMemoryUserRepository: UserRepository{
         return users[id]
     }
 
-    /*
+    /**
     * Find all Users
     * @return: List of all Users
     */
@@ -60,7 +60,7 @@ class InMemoryUserRepository: UserRepository{
         return users.values.toList() // Return a list of all users
     }
 
-    /*
+    /**
     * Find a User by Email
     * @param email: Email of the User to be found
     * @return: Found User or null if not found
@@ -69,7 +69,7 @@ class InMemoryUserRepository: UserRepository{
         return users.values.firstOrNull { it.email == email }
     }
 
-    /*
+    /**
      * Update a User
      * @param user: User to be updated
      * @return: Updated User
@@ -83,7 +83,7 @@ class InMemoryUserRepository: UserRepository{
         return Result.success(user) // Return the updated user
     }
 
-    /*
+    /**
      * Delete a User by ID
      * @param id: ID of the User to be deleted
      * @return: True if deleted, false if not found
@@ -93,6 +93,9 @@ class InMemoryUserRepository: UserRepository{
         return users.remove(id) != null
     }
 
+    /**
+     * Find user by username
+     */
     override fun findByUsername(username: String): User? =
         users.values.find { it.username.equals(username, ignoreCase = true) }
     }

@@ -11,7 +11,7 @@ class InMemoryCustomerRepository: CustomerRepository{
     // Mutable map to store customers
     private val customers = mutableMapOf<String, Customer>()
 
-    /*
+    /**
      * Save a customer to the repository.
      * @param customer The customer to save.
      * @return True if the customer was saved successfully, false otherwise.
@@ -25,7 +25,7 @@ class InMemoryCustomerRepository: CustomerRepository{
         return true
     }
 
-    /*
+    /**
      * Find a customer by ID.
      * @param id The ID of the customer to find.
      * @return The customer with the specified ID, or null if not found.
@@ -34,7 +34,7 @@ class InMemoryCustomerRepository: CustomerRepository{
         return customers[id]
     }
 
-    /*
+    /**
      * List all customers in the repository.
      * @return A list of all customers in the repository.
      */
@@ -42,7 +42,7 @@ class InMemoryCustomerRepository: CustomerRepository{
         return customers.values.toList()
     }
 
-    /*
+    /**
      * Update a customer in the repository.
      * @param customer The customer to update.
      * @return The updated customer, or null if not found.
@@ -57,7 +57,7 @@ class InMemoryCustomerRepository: CustomerRepository{
         return Result.success(customer)
     }
 
-    /*
+    /**
      * Delete a customer from the repository.
      * @param id The ID of the customer to delete.
      * @return True if the customer was deleted successfully, false otherwise.
@@ -66,7 +66,7 @@ class InMemoryCustomerRepository: CustomerRepository{
         return customers.remove(id) != null
     }
 
-    /*
+    /**
      * Find a customer by phone number.
      * @param phone The phone number of the customer to find.
      * @return The customer with the specified phone number, or null if not found.
@@ -75,7 +75,7 @@ class InMemoryCustomerRepository: CustomerRepository{
         return customers.values.firstOrNull { it.phone == phone }
     }
 
-    /*
+    /**
      * Find a customer by email address.
      * @param email The email address of the customer to find.
      * @return The customer with the specified email address, or null if not found.

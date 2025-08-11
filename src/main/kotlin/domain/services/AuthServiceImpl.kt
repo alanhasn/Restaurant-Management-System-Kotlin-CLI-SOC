@@ -26,7 +26,7 @@ class AuthServiceImpl(
     private val activeSessions = mutableSetOf<String>() // Set to track active sessions
 
 
-    /*
+    /**
      * Function to handle login
      * @param username: Username of the user
      * @param password: Password of the user
@@ -60,7 +60,7 @@ class AuthServiceImpl(
         return user
     }
 
-    /*
+    /**
      * Function to handle registration
      * @param username: Username of the user
      * @param email: Email of the user
