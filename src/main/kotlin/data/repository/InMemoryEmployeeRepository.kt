@@ -13,7 +13,7 @@ class InMemoryEmployeeRepository: EmployeeRepository{
 
     init {
         // Initialize the in-memory storage
-        employees["1"] = Employee(
+        val employee1 = Employee(
             UUID.randomUUID().toString(),
             "1234567890",
             "Alan",
@@ -24,7 +24,9 @@ class InMemoryEmployeeRepository: EmployeeRepository{
             "whoma@example.com",
             "qamishlo",
             )
-        employees["2"] = Employee(
+        employees[employee1.id] = employee1
+
+        val employee2 = Employee(
             UUID.randomUUID().toString(),
             "1234567890",
             "John",
@@ -35,8 +37,9 @@ class InMemoryEmployeeRepository: EmployeeRepository{
             "whoma@example.com",
             "qamishlo",
         )
+        employees[employee2.id] = employee2
 
-        employees["3"] = Employee(
+        val employee3 = Employee(
             UUID.randomUUID().toString(),
             "1234567890",
             "Jane",
@@ -47,6 +50,8 @@ class InMemoryEmployeeRepository: EmployeeRepository{
             "whoma@example.com",
             "qamishlo",
         )
+
+        employees[employee3.id] = employee3
     }
 
     /**

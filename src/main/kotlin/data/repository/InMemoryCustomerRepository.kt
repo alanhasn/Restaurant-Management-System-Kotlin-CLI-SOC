@@ -11,6 +11,52 @@ class InMemoryCustomerRepository: CustomerRepository{
     // Mutable map to store customers
     private val customers = mutableMapOf<String, Customer>()
 
+    // adding initial data for customers in the restaurant
+    init {
+        val customer1 = Customer(
+            id = UUID.randomUUID().toString(),
+            name = "Alan hassan",
+            phone = "1234567890",
+            email = "q5Oo6@example.com",
+            address = "123 Main St",
+            notes = "Customer profile created upon registration.",
+            isActive = true
+        )
+        customers[customer1.id] = customer1
+
+        val customer2 = Customer(
+            id = UUID.randomUUID().toString(),
+            name = "Ali",
+            phone = "1234567890",
+            email = "q5Oo6@example.com",
+            address = "123 Main St",
+            notes = "Customer profile created upon registration.",
+            isActive = true
+        )
+        customers[customer2.id] = customer2
+
+        val customer3 = Customer(
+            id = UUID.randomUUID().toString(),
+            name = "Ahmed alo",
+            phone = "1234567890",
+            email = "q5Oo6@example.com",
+            address = "123 Main St",
+            notes = "Customer profile created upon registration.",
+            isActive = true
+        )
+        customers[customer3.id] = customer3
+
+        val customer4 = Customer(
+            id = UUID.randomUUID().toString(),
+            name = "Ahmed",
+            phone = "1234567890",
+            email = "q5Oo6@example.com",
+            address = "123 Main St",
+            notes = "Customer profile created upon registration.",
+            isActive = true
+        )
+        customers[customer4.id] = customer4
+    }
     /**
      * Save a customer to the repository.
      * @param customer The customer to save.
